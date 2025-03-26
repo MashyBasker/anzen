@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 use keylist::GPGKey;
 use prettytable::{format, row, Table};
 
+mod git;
 mod keylist;
 
 #[derive(Parser)]
