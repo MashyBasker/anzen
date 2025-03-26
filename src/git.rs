@@ -15,12 +15,14 @@ pub fn set_config(repo_path: &str, gpg_key_info: GPGKey) -> Result<(), git2::Err
     let repo = Repository::open(repo_path)?;
     let mut config = repo.config()?;
 
+    // add key, value pair in git config file
     config.set_str("user.name", &gpg_key_info.username)?;
     config.set_str("user.email", &gpg_key_info.email.unwrap())?;
     config.set_str("user.signingkey", &gpg_key_info.id)?;
     Ok(())
 }
 
+/// add selection tui to choose user to add in config
 pub fn choose_signing_key(gpg_info_list: Vec<GPGKey>) -> Result<String, git2::Error> {
     if gpg_info_list.is_empty() {
         return Err(git2::Error::from_str("No GPG keys available"));
@@ -94,7 +96,6 @@ fn create_theme() -> Theme {
     palette[PaletteColor::Highlight] = Color::RgbLowRes(5, 5, 0); // Bright yellow
     palette[PaletteColor::HighlightInactive] = Color::RgbLowRes(3, 3, 0); // Darker yellow
 
-    // Create a theme with rounded borders
     let mut theme = Theme::default();
     theme.palette = palette;
     theme.borders = BorderStyle::Simple;
